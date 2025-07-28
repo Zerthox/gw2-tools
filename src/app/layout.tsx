@@ -10,7 +10,7 @@ import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/gw2-ui-new/dist/default_style.css";
 import "./global.css";
 
-const roboto = Roboto();
+const roboto = Roboto({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
