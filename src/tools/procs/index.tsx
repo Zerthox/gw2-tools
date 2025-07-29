@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Stack, TextField, InputAdornment, Typography } from "@mui/material";
 import { toTicks } from "@/util/math";
 
@@ -42,9 +42,11 @@ export function ProcCalculator() {
                 value={phase}
                 onChange={({ target }) => setPhase(Number.parseFloat(target.value))}
                 error={!phaseValid}
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">s</InputAdornment>,
-                    inputProps: { min: 0, step: 0.1 },
+                slotProps={{
+                    input: {
+                        endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                        inputProps: { min: 0, step: 0.1 },
+                    },
                 }}
             />
             <TextField
@@ -54,9 +56,11 @@ export function ProcCalculator() {
                 value={interval}
                 onChange={({ target }) => setInterval(Number.parseFloat(target.value))}
                 error={!intervalValid}
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">s</InputAdornment>,
-                    inputProps: { min: 0, step: 0.1 },
+                slotProps={{
+                    input: {
+                        endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                        inputProps: { min: 0, step: 0.1 },
+                    },
                 }}
             />
             <TextField
@@ -66,9 +70,11 @@ export function ProcCalculator() {
                 value={duration}
                 onChange={({ target }) => setDuration(Number.parseFloat(target.value))}
                 error={!durationValid}
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">s</InputAdornment>,
-                    inputProps: { min: 0, step: 0.1 },
+                slotProps={{
+                    input: {
+                        endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                        inputProps: { min: 0, step: 0.1 },
+                    },
                 }}
             />
             <TextField
@@ -78,9 +84,11 @@ export function ProcCalculator() {
                 value={tickrate}
                 onChange={({ target }) => setTickrate(Number.parseFloat(target.value))}
                 error={!tickrateValid}
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">s</InputAdornment>,
-                    inputProps: { min: 0, step: 0.1 },
+                slotProps={{
+                    input: {
+                        endAdornment: <InputAdornment position="end">s</InputAdornment>,
+                        inputProps: { min: 0, step: 0.1 },
+                    },
                 }}
             />
             {valid ? (

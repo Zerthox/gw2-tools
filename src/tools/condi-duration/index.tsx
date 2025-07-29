@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Stack, FormHelperText, IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { ConditionEntry } from "./entry";

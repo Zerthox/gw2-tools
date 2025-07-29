@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Stack, TextField, InputAdornment, Typography } from "@mui/material";
 import { effectiveDuration, minimizeDuration, nextHigherDuration } from "@/util/math";
 

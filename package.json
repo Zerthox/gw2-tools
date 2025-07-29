@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,9 +15,12 @@
     "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@gw2api/fetch": "^0.4.1",
+    "@gw2api/types": "^0.0.34",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/material-nextjs": "^7.1.0",
+    "gw2e-chat-codes": "^1.4.2",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

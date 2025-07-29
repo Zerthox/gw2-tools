@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Stack, TextField, Typography } from "@mui/material";
 import { css } from "@emotion/css";
 import { CustomComponent } from "@discretize/gw2-ui-new";
