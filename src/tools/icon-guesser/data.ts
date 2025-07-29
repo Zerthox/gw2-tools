@@ -43,7 +43,7 @@ const skillSlots: Record<Skill.Slot, string | false> = {
     Weapon_5: "Weapon",
 };
 
-const buffs = [
+const buffs = new Set([
     "Aegis",
     "Alacrity",
     "Fury",
@@ -72,7 +72,7 @@ const buffs = [
     "Vulnerability",
     "Revealed",
     "Stealth",
-];
+]);
 
 export async function loadData(): Promise<GameData> {
     const skills: Info[] = [];
@@ -102,7 +102,7 @@ export async function loadData(): Promise<GameData> {
             hints.push(`Used by ${skill.professions[0]}`);
 
             const buff = skill.facts?.find(
-                (fact) => fact.type === "Buff" && fact.status && buffs.includes(fact.status)
+                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status)
             );
             if (buff) {
                 hints.push(`Applies ${buff.status}`);
@@ -133,7 +133,7 @@ export async function loadData(): Promise<GameData> {
             }
 
             const buff = trait.facts?.find(
-                (fact) => fact.type === "Buff" && fact.status && buffs.includes(fact.status)
+                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status)
             );
             if (buff) {
                 hints.push(`Applies ${buff.status}`);
