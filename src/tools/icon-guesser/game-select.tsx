@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { GameData } from ".";
 import { Game, Mode } from "./game";
+import { GameData } from "./data";
 
 export interface GameSelectProps {
     data: GameData;
