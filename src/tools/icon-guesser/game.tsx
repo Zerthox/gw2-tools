@@ -30,7 +30,7 @@ export function Game({ mode, options }: GameProps) {
 
     const autocomplete = useMemo(
         () => [...new Set(options.map((option) => option.name))],
-        [options]
+        [options],
     );
 
     const submit = useCallback(() => {

@@ -15,6 +15,10 @@ export interface Info {
     hints: string[];
 }
 
+const ignoredSkills = new Set([
+    38767, // unholy burst
+]);
+
 const monsterIcon =
     "https://render.guildwars2.com/file/1D55D34FB4EE20B1962E315245E40CA5E1042D0E/62248.png";
 
@@ -74,22 +78,35 @@ const buffs = new Set([
     "Stealth",
 ]);
 
+const attributes: Record<string, string> = {
+    CritDamage: "Critical Damage",
+    Healing: "Healing",
+    Power: "Power",
+    ConditionDamage: "Condition Damage",
+    BoonDuration: "Boon Duration",
+    Precision: "Precision",
+    Toughness: "Toughness",
+    Vitality: "Vitality",
+    ConditionDuration: "Condition Duration",
+};
+
 export async function loadData(): Promise<GameData> {
     const skills: Info[] = [];
     const traits: Info[] = [];
 
     const specs = Object.fromEntries(
-        (await fetchGw2Api("/v2/specializations?ids=all", {})).map((spec) => [spec.id, spec])
+        (await fetchGw2Api("/v2/specializations?ids=all", {})).map((spec) => [spec.id, spec]),
     );
 
     for (const skill of await fetchGw2Api("/v2/skills?ids=all", {})) {
         if (
-            skill.name &&
-            skill.icon &&
-            skill.icon !== monsterIcon &&
-            skill.professions?.length === 1 &&
-            skill.slot &&
-            skillSlots[skill.slot]
+            !ignoredSkills.has(skill.id)
+            && skill.name
+            && skill.icon
+            && skill.icon !== monsterIcon
+            && skill.professions?.length === 1
+            && skill.slot
+            && skillSlots[skill.slot]
         ) {
             const hints = [];
 
@@ -102,7 +119,7 @@ export async function loadData(): Promise<GameData> {
             hints.push(`Used by ${skill.professions[0]}`);
 
             const buff = skill.facts?.find(
-                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status)
+                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status),
             );
             if (buff) {
                 hints.push(`Applies ${buff.status}`);
@@ -128,12 +145,12 @@ export async function loadData(): Promise<GameData> {
             const hints = [`In ${traitTiers[trait.tier]} tier`, `Used by ${spec.profession}`];
 
             const attr = trait.facts?.find((fact) => fact.type === "AttributeAdjust");
-            if (attr) {
-                hints.push(`Grants ${attr.target}`);
+            if (attr && attr.target && attributes[attr.target]) {
+                hints.push(`Grants ${attributes[attr.target]}`);
             }
 
             const buff = trait.facts?.find(
-                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status)
+                (fact) => fact.type === "Buff" && fact.status && buffs.has(fact.status),
             );
             if (buff) {
                 hints.push(`Applies ${buff.status}`);
