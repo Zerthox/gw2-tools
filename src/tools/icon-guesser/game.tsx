@@ -25,7 +25,7 @@ export interface GameProps {
 export function Game({ mode, options }: GameProps) {
     const [state, setState] = useState(State.Pending);
     const [answer, setAnswer] = useState<string | null>(null);
-    const [current, setCurrent] = useState(() => pickEntry(options));
+    const [current, setCurrent] = useState(() => options[0]);
     const [revealed, setRevealed] = useState(0);
 
     const autocomplete = useMemo(
