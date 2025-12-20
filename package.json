@@ -7,7 +7,8 @@
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
-        "lint": "next lint",
+        "lint": "eslint --max-warnings=0",
+        "lint-fix": "eslint --max-warnings=0 --fix .",
         "format-check": "prettier --check .",
         "format-fix": "prettier --write .",
         "test": "mocha"

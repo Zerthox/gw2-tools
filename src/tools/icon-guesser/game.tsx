@@ -45,8 +45,6 @@ export function Game({ mode, options }: GameProps) {
         setCurrent(pickEntry(options));
     }, [options]);
 
-    useEffect(reset, [reset, options]);
-
     const color = state === State.Correct ? "success" : "error";
     const allRevealed = revealed >= current.hints.length;
 
