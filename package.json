@@ -8,6 +8,8 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "lint": "next lint",
+        "format-check": "prettier --check .",
+        "format-fix": "prettier --write .",
         "test": "mocha"
     },
     "dependencies": {
@@ -21,7 +23,7 @@
         "@mui/icons-material": "^7.1.0",
         "@mui/material": "^7.1.0",
         "@mui/material-nextjs": "^7.1.0",
-        "@types/node": "^25.0.3",
+        "@types/node": "^24.10.4",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
         "gw2e-chat-codes": "^1.4.2",

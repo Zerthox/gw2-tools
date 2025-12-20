@@ -1,0 +1,39 @@
+name: Check
+
+on:
+    push:
+        paths:
+            - "**/*.ts"
+            - "**/*.tsx"
+            - package.json
+            - tsconfig.json
+    pull_request:
+        branches: [main]
+
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+            - name: Install dependencies
+              run: npm ci
+            - run: npm run lint
+    tests:
+        name: Tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+            - name: Install dependencies
+              run: npm ci
+            - run: npm run test
