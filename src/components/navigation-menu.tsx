@@ -46,9 +46,9 @@ export function NavigationMenu() {
                         </IconButton>
                     </Stack>
                     <Divider />
-                    {Object.entries(tools).map(([path, { title, description, icon: Icon }]) => (
-                        <ListItem disablePadding key={path}>
-                            <ListItemButton href={"/tools/" + path} LinkComponent={Link}>
+                    {Object.entries(tools).map(([id, { title, description, icon: Icon }]) => (
+                        <ListItem disablePadding key={id}>
+                            <ListItemButton href={"/tools/" + id} LinkComponent={Link}>
                                 <ListItemIcon>
                                     <Icon />
                                 </ListItemIcon>

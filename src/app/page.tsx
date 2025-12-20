@@ -6,8 +6,8 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/mater
 export default function Home() {
     return (
         <Content>
-            {Object.entries(tools).map(([id, { title, description, icon: Icon }], i) => (
-                <ListItem key={i}>
+            {Object.entries(tools).map(([id, { title, description, icon: Icon }]) => (
+                <ListItem key={id}>
                     <ListItemButton href={"/tools/" + id} LinkComponent={Link}>
                         <ListItemIcon>
                             <Icon />
