@@ -7,7 +7,8 @@
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
-        "lint": "next lint"
+        "lint": "next lint",
+        "test": "mocha"
     },
     "dependencies": {
         "@discretize/gw2-ui-new": "^3.2.0",
@@ -16,23 +17,26 @@
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.0",
         "@gw2api/fetch": "^0.4.1",
-        "@gw2api/types": "^0.0.34",
+        "@gw2api/types": "^0.0.38",
         "@mui/icons-material": "^7.1.0",
         "@mui/material": "^7.1.0",
         "@mui/material-nextjs": "^7.1.0",
+        "@types/node": "^25.0.3",
+        "@types/react": "^19.2.7",
+        "@types/react-dom": "^19.2.3",
         "gw2e-chat-codes": "^1.4.2",
-        "next": "^15.3.3",
+        "next": "^16.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
-        "@types/node": "^22.15.29",
-        "@types/react": "^19.1.6",
-        "@types/react-dom": "^19.1.5",
+        "@types/mocha": "^10.0.10",
         "eslint": "^9.28.0",
-        "eslint-config-next": "^15.4.4",
+        "eslint-config-next": "^16.1.0",
+        "mocha": "^11.7.5",
         "prettier": "^3.5.3",
-        "typescript": "^5.8.3"
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3"
     }
 }
