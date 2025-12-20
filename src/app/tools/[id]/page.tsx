@@ -9,11 +9,7 @@ export async function generateStaticParams(): Promise<ToolParams[]> {
     return Object.keys(tools).map((id) => ({ id }));
 }
 
-interface ToolProps {
-    params: Promise<ToolParams>;
-}
-
-export default async function Tool({ params }: ToolProps) {
+export default async function Tool({ params }: PageProps<"/tools/[id]">) {
     const { id } = await params;
     const tool = tools[id];
     const Body = tool.content;

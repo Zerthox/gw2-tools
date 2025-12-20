@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Content } from "@/components/content";
+import { Link } from "@/components/link";
 import { tools } from "@/tools";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 

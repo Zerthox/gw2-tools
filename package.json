@@ -5,7 +5,7 @@
     "author": "Zerthox",
     "bugs": "https://github.com/zerthox/gw2-tools",
     "scripts": {
-        "dev": "next dev --turbopack",
+        "dev": "next dev",
         "build": "next build",
         "lint": "eslint --max-warnings=0",
         "lint-fix": "eslint --max-warnings=0 --fix .",

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/link";
 import { AppBar, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import { GitHub } from "@mui/icons-material";
 import { SettingsMenu } from "@/components/settings-menu";
