@@ -1,7 +1,7 @@
-import { GameSelect } from "./game-select";
+import { Game } from "./game";
 import { loadData } from "./data";
 
 export async function IconGuesser() {
     const data = await loadData();
-    return <GameSelect data={data} />;
+    return <Game data={data} />;
 }

@@ -1,55 +1,77 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Button, Typography, TextField, Stack, Autocomplete, Link } from "@mui/material";
-import { CustomComponent, useSkill, useTrait } from "@discretize/gw2-ui-new";
+import { useCallback, useMemo, useReducer, useState } from "react";
+import { Box, Button, Typography, TextField, Stack, Autocomplete } from "@mui/material";
 import { pickEntry } from "@/util/rand";
-import { Info } from "./data";
+import { GameData, Info } from "./data";
+import { SkillSolution, TraitSolution } from "./solution";
+import { GameSelect } from "./game-select";
 
 export const enum Mode {
-    Trait = "trait",
-    Skill = "skill",
+    Trait = "traits",
+    Skill = "skills",
 }
 
-const enum State {
+const enum Status {
     Pending,
     Correct,
     Wrong,
 }
 
 export interface GameProps {
-    mode: Mode;
-    options: Info[];
+    data: GameData;
 }
 
-export function Game({ mode, options }: GameProps) {
-    const [state, setState] = useState(State.Pending);
-    const [answer, setAnswer] = useState<string | null>(null);
-    const [current, setCurrent] = useState(() => options[0]);
-    const [revealed, setRevealed] = useState(0);
+interface GameState {
+    mode: Mode;
+    status: Status;
+    current: Info;
+    revealed: number;
+}
 
-    const autocomplete = useMemo(
-        () => [...new Set(options.map((option) => option.name))],
-        [options],
+export function Game({ data }: GameProps) {
+    const getStartState = useCallback(
+        (mode: Mode) => ({
+            mode,
+            status: Status.Pending,
+            current: pickEntry(data[mode]),
+            revealed: 0,
+        }),
+        [data],
     );
+
+    const [{ mode, status, current, revealed }, setState] = useReducer(
+        (prev: GameState, { mode, ...update }: Partial<GameState>) =>
+            mode && mode !== prev.mode ? getStartState(mode) : { ...prev, ...update },
+        Mode.Trait,
+        getStartState,
+    );
+
+    const [answer, setAnswer] = useState<string | null>(null);
+
+    const changeMode = useCallback((mode: Mode) => setState({ mode }), [setState]);
 
     const submit = useCallback(() => {
         const correct = answer?.toLowerCase() === current.name.toLowerCase();
-        setState(correct ? State.Correct : State.Wrong);
+        setState({ status: correct ? Status.Correct : Status.Wrong });
     }, [answer, current.name]);
 
     const reset = useCallback(() => {
         setAnswer(null);
-        setState(State.Pending);
-        setRevealed(0);
-        setCurrent(pickEntry(options));
-    }, [options]);
+        setState(getStartState(mode));
+    }, [mode, getStartState]);
 
-    const color = state === State.Correct ? "success" : "error";
+    const autocomplete = useMemo(
+        () => [...new Set(data[mode].map((option) => option.name))],
+        [data, mode],
+    );
+
+    const color = status === Status.Correct ? "success" : "error";
     const allRevealed = revealed >= current.hints.length;
 
     return (
-        <>
+        <Stack direction="column" spacing={1} alignItems="center">
+            <GameSelect mode={mode} onChange={changeMode} />
             <Typography variant="h5">
                 Which {mode === Mode.Trait ? "Trait" : "Skill"} is this?
             </Typography>
@@ -68,7 +90,7 @@ export function Game({ mode, options }: GameProps) {
                     options={autocomplete}
                     value={answer}
                     onChange={(_, value) => setAnswer(value)}
-                    disabled={state !== State.Pending}
+                    disabled={status !== Status.Pending}
                     disablePortal
                     renderInput={(params) => (
                         <TextField
@@ -83,7 +105,7 @@ export function Game({ mode, options }: GameProps) {
                         ></TextField>
                     )}
                 />
-                {state === State.Pending ? (
+                {status === Status.Pending ? (
                     <Button variant="contained" disabled={!answer} onClick={submit}>
                         Submit
                     </Button>
@@ -93,7 +115,7 @@ export function Game({ mode, options }: GameProps) {
                     </Button>
                 )}
             </Stack>
-            {state === State.Pending ? (
+            {status === Status.Pending ? (
                 <>
                     {current.hints.slice(0, revealed).map((hint, i) => (
                         <Typography key={i}>
@@ -101,22 +123,22 @@ export function Game({ mode, options }: GameProps) {
                         </Typography>
                     ))}
                     {!allRevealed ? (
-                        <Button onClick={() => setRevealed(revealed + 1)}>
+                        <Button onClick={() => setState({ revealed: revealed + 1 })}>
                             Reveal hint {revealed + 1}/{current.hints.length}
                         </Button>
                     ) : null}
                 </>
             ) : null}
-            {state === State.Correct ? (
+            {status === Status.Correct ? (
                 <Typography variant="h6" color="success">
                     Correct!
                 </Typography>
-            ) : state === State.Wrong ? (
+            ) : status === Status.Wrong ? (
                 <Typography variant="h6" color="error">
                     Incorrect!
                 </Typography>
             ) : null}
-            {state === State.Correct || state === State.Wrong ? (
+            {status === Status.Correct || status === Status.Wrong ? (
                 <>
                     <Typography color={color} component="span">
                         Solution:{" "}
@@ -128,48 +150,6 @@ export function Game({ mode, options }: GameProps) {
                     </Typography>
                 </>
             ) : null}
-        </>
+        </Stack>
     );
-}
-
-interface SolutionProps {
-    type: "Skill" | "Trait";
-    info: Info;
-    loading: boolean;
-    error: false | number;
-    data: unknown;
-}
-
-function Solution({ type, info, loading, error, data }: SolutionProps) {
-    return loading ? (
-        <span>Loading...</span>
-    ) : error ? (
-        <Link
-            href={`https://wiki.guildwars2.com/wiki/Special:Search/${encodeURIComponent(info.link)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            {info.name}
-        </Link>
-    ) : (
-        <CustomComponent type={type} data={data} text={info.name} disableIcon />
-    );
-}
-
-interface TraitSolutionProps {
-    info: Info;
-}
-
-function TraitSolution({ info }: TraitSolutionProps) {
-    const { loading, error, data } = useTrait(info.id);
-    return <Solution type="Trait" info={info} loading={loading} error={error} data={data} />;
-}
-
-interface SkillSolutionProps {
-    info: Info;
-}
-
-function SkillSolution({ info }: SkillSolutionProps) {
-    const { loading, error, data } = useSkill(info.id);
-    return <Solution type="Skill" info={info} loading={loading} error={error} data={data} />;
 }
