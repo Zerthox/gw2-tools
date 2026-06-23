@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { CssBaseline, InitColorSchemeScript, ThemeProvider } from "@mui/material";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import { Providers } from "@/components/providers";
 import { theme } from "@/theme";
 import { site } from "@/metadata";
@@ -16,7 +16,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="en" className={roboto.className} suppressHydrationWarning>
             <body>
-                <InitColorSchemeScript attribute="class" />
                 <AppRouterCacheProvider options={{ enableCssLayer: true }}>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />

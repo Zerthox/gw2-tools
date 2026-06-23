@@ -1,9 +1,6 @@
-import { Link } from "@/components/link";
-import { AppBar, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
-import { GitHub } from "@mui/icons-material";
-import { SettingsMenu } from "@/components/settings-menu";
+import { AppBar, Container, Toolbar, Typography } from "@mui/material";
 import { NavigationMenu } from "@/components/navigation-menu";
-import { site } from "@/metadata";
+import { HeaderButtons } from "./header-buttons";
 
 export interface HeaderProps {
     title?: string;
@@ -18,17 +15,7 @@ export function Header({ title }: HeaderProps) {
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
                         {title ?? "GW2 Tools"}
                     </Typography>
-                    <Tooltip title="GitHub" placement="bottom" disableInteractive>
-                        <IconButton
-                            href={site.source}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            LinkComponent={Link}
-                        >
-                            <GitHub />
-                        </IconButton>
-                    </Tooltip>
-                    <SettingsMenu />
+                    <HeaderButtons />
                 </Toolbar>
             </Container>
         </AppBar>

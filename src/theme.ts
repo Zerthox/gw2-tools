@@ -7,7 +7,5 @@ export const theme = createTheme({
         light: true,
         dark: true,
     },
-    cssVariables: {
-        colorSchemeSelector: "class",
-    },
+    cssVariables: true,
 });
