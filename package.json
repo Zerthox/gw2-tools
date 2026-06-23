@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "check": "tsc --noEmit",
+        "check": "next typegen && tsc --noEmit",
         "lint": "eslint --max-warnings=0",
         "lint-fix": "eslint --max-warnings=0 --fix .",
         "format-check": "prettier --check .",
