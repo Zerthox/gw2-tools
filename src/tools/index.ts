@@ -4,11 +4,13 @@ import {
     SvgIconComponent,
     ImageSearch,
     HelpCenter,
+    Timeline,
 } from "@mui/icons-material";
 import { CondiDurationCalculator } from "./condi-duration";
 import { ProcCalculator } from "./procs";
 import { SkillViewer } from "./skill-viewer";
 import { IconGuesser } from "./icon-guesser";
+import { DamagePrediction } from "./damage-prediction";
 
 export interface Tool {
     title: string;
@@ -27,8 +29,14 @@ export const tools: Record<string, Tool> = {
     procs: {
         title: "Proc Calculator",
         description: "Calculate generic proc rates",
-        icon: QueryStats,
+        icon: Timeline,
         content: ProcCalculator,
+    },
+    "damage-prediction": {
+        title: "Damage Prediction",
+        description: "Predict damage changes",
+        icon: QueryStats,
+        content: DamagePrediction,
     },
     "icon-guesser": {
         title: "Icon Guesser",
