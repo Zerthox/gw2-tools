@@ -19,19 +19,17 @@ interface DamageEntry {
 }
 
 export function Grid({ log }: GridProps) {
-    const player = useMemo(
-        () => log.players.find((player) => player.name === log.recordedBy) ?? log.players[0],
-        [log],
-    );
     const phaseId = useMemo(
         () => log.phases.findIndex((phase) => phase.phaseType === "Encounter") ?? 0,
         [log],
     );
     const phase = log.phases[phaseId];
     const duration = phase.end - phase.start;
-    const targetId = phase.targets[0];
 
     const damageDist = useMemo<DamageEntry[]>(() => {
+        const player =
+            log.players.find((player) => player.name === log.recordedBy) ?? log.players[0];
+        const targetId = log.phases[phaseId].targets[0];
         const damageDist = player.targetDamageDist[targetId][phaseId];
         return damageDist
             .map(({ id, totalDamage, indirectDamage, hits }) => {
@@ -48,7 +46,7 @@ export function Grid({ log }: GridProps) {
                 };
             })
             .toSorted((a, b) => b.damage - a.damage);
-    }, [log]);
+    }, [log, phaseId]);
 
     const totalBefore = useMemo(
         () => damageDist.reduce((sum, { damage }) => sum + damage, 0),
