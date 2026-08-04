@@ -1,30 +1,30 @@
 import { describe, it } from "mocha";
 import { strict as assert } from "assert";
-import { effectiveDuration, minimizeDuration, nextHigherDuration } from "../src/util/math";
+import { calcEffectiveDuration, minimizeDuration, nextHigherDuration } from "../src/util/tick";
 
 describe("Condi duration calculations", () => {
     describe("effectiveDuration", () => {
         it("returns correct duration for simple", () => {
-            assert.equal(effectiveDuration(1_000, 32.0), 1_320);
-            assert.equal(effectiveDuration(1_000, 32.01), 1_360);
-            assert.equal(effectiveDuration(1_000, 33.0), 1_360);
-            assert.equal(effectiveDuration(1_000, 36.0), 1_360);
-            assert.equal(effectiveDuration(1_000, 36.01), 1_400);
+            assert.equal(calcEffectiveDuration(1_000, 32.0), 1_320);
+            assert.equal(calcEffectiveDuration(1_000, 32.01), 1_360);
+            assert.equal(calcEffectiveDuration(1_000, 33.0), 1_360);
+            assert.equal(calcEffectiveDuration(1_000, 36.0), 1_360);
+            assert.equal(calcEffectiveDuration(1_000, 36.01), 1_400);
         });
         it("returns correct duration for base with fraction", () => {
             const base = 1_200;
-            assert.equal(effectiveDuration(base, 30.0), 1_560);
-            assert.equal(effectiveDuration(base, 30.01), 1_600);
-            assert.equal(effectiveDuration(base, 33.0), 1_600);
-            assert.equal(effectiveDuration(base, 33.33), 1_600);
-            assert.equal(effectiveDuration(base, 33.34), 1_640);
+            assert.equal(calcEffectiveDuration(base, 30.0), 1_560);
+            assert.equal(calcEffectiveDuration(base, 30.01), 1_600);
+            assert.equal(calcEffectiveDuration(base, 33.0), 1_600);
+            assert.equal(calcEffectiveDuration(base, 33.33), 1_600);
+            assert.equal(calcEffectiveDuration(base, 33.34), 1_640);
         });
         it("returns correct duration for large", () => {
             const base = 100_000;
-            assert.equal(effectiveDuration(base, 99.6), 199_600);
-            assert.equal(effectiveDuration(base, 99.61), 199_640);
-            assert.equal(effectiveDuration(base, 99.64), 199_640);
-            assert.equal(effectiveDuration(base, 99.65), 199_680);
+            assert.equal(calcEffectiveDuration(base, 99.6), 199_600);
+            assert.equal(calcEffectiveDuration(base, 99.61), 199_640);
+            assert.equal(calcEffectiveDuration(base, 99.64), 199_640);
+            assert.equal(calcEffectiveDuration(base, 99.65), 199_680);
         });
     });
 

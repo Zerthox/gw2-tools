@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Stack, TextField, InputAdornment, Typography } from "@mui/material";
-import { toTicks } from "@/util/math";
+import { toTicks } from "@/util/tick";
 
 export function ProcCalculator() {
     const [phase, setPhase] = useState(20);

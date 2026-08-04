@@ -2,40 +2,31 @@
 
 import { useState } from "react";
 import { Stack, TextField, InputAdornment, Typography } from "@mui/material";
-import { effectiveDuration, minimizeDuration, nextHigherDuration } from "@/util/math";
+import { calcEffectiveDuration, minimizeDuration, nextHigherDuration } from "@/util/tick";
+import { calcConditionDamage, calcConditionDuration, Stats } from "@/util/stats";
+import { ConditionInput, Condition } from "./condition";
 
-const formatMs = (ms: number) => `${new Intl.NumberFormat("fr").format(ms)}ms`;
+export interface ConditionEntryProps {
+    stats: Stats;
+}
 
-export function ConditionEntry() {
-    const [duration, setDuration] = useState(0);
-    const durationValid = duration >= 0 && duration <= 100;
-
+export function ConditionEntryProps({ stats }: ConditionEntryProps) {
+    const [condition, setCondition] = useState<Condition>("Bleeding");
     const [base, setBase] = useState(1000);
-    const baseValid = base > 0;
 
-    const valid = durationValid && baseValid;
+    const duration = calcConditionDuration(stats, condition);
+    const damage = calcConditionDamage(stats, condition);
+    const effective = calcEffectiveDuration(base, duration) / 1000;
+    const valid = base > 0;
 
     return (
-        <Stack direction="row" spacing={2} alignItems="center">
-            <TextField
-                type="number"
-                label="Duration"
-                value={duration}
-                error={!durationValid}
-                onChange={({ target }) => setDuration(Number.parseFloat(target.value))}
-                slotProps={{
-                    input: {
-                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                        inputProps: { min: 0, max: 100, step: 0.1 },
-                    },
-                }}
-                sx={{ width: 120 }}
-            />
+        <Stack direction="row" spacing={3} alignItems="center">
+            <ConditionInput condition={condition} onChange={setCondition} />
             <TextField
                 type="number"
                 label="Base"
                 value={base / 1000}
-                error={!baseValid}
+                error={!valid}
                 onChange={({ target }) => setBase(Number.parseFloat(target.value) * 1000)}
                 slotProps={{
                     input: {
@@ -43,14 +34,18 @@ export function ConditionEntry() {
                         inputProps: { min: 0, step: 1 },
                     },
                 }}
-                sx={{ width: 120 }}
+                sx={{ width: 100 }}
             />
             {valid ? (
                 <>
                     <Stack direction="column" spacing={0.5}>
                         <Typography>
-                            Effective duration: {formatMs(effectiveDuration(base, duration))}
+                            Effective duration:{" "}
+                            {(calcEffectiveDuration(base, duration) / 1000).toFixed(3)}s
                         </Typography>
+                        <Typography>Effective damage: {(damage * effective).toFixed(1)}</Typography>
+                    </Stack>
+                    <Stack direction="column" spacing={0.5}>
                         <Typography>
                             Minimized Condition Duration:{" "}
                             {minimizeDuration(base, duration).toFixed(2)}%
